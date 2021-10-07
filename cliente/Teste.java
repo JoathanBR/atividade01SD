@@ -1,25 +1,20 @@
 public class Teste {
     public static void main(String args[]) {
-        String q = "FFFFV";
-        alternativa(q);
-    
-    }
 
-    public static void alternativa (String questao){
+        String tudo = "12;92;";
+        String questao = "";
+        String altern = "";
         char V;
+        char F;
+        char ponto;
         V = 'V';
-        int certos = 0;
+        F = 'F';
+        ponto = ';';
 
-        System.out.println(questao);
-
-        for (int i=0; i<questao.length(); i++) {
-            char c = questao.charAt(i);
-            if(c == V){
-                certos++;
-            }
-        }
+        String frase = "nome;teste;10";
+        String array[] = new String[3];
         
-        System.out.println("Número de acertos: " + certos);
-        return ;
+        array = tudo.split(";");
+        System.out.println(array[0]);
     }
 }

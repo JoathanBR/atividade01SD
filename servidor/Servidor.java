@@ -8,6 +8,7 @@
  */
 
 import java.net.*;
+
 import java.io.*;
 
 public class Servidor {
@@ -16,23 +17,58 @@ public class Servidor {
         
         try {
             s = new DatagramSocket(6789); // cria um socket UDP
-            byte[] buffer = new byte[1000];
+            byte[] buffer = new byte[100];
             while (true) {
                  System.out.println("*** Servidor aguardando request");
-                // cria datagrama para recepcionar solicita��o do cliente
+                // cria datagrama para recepcionar solicitação do cliente
                 
                 DatagramPacket req = new DatagramPacket(buffer, buffer.length);
                 s.receive(req);
-                //Mudanças
-                //String dados = getBytes();
-                alternativa(new String(req.getData()));
-                //System.out.println("TESTE: " + dados);
-                //fim
+                //Implementação 
+                String questao = new String(req.getData());
+                char V;
+                char F;
+                V = 'V';
+                F = 'F';
+                int certos = 0;
+                int erradas = 0;
+                String alternativa[] = new String[3];
+
+                alternativa = questao.split(";");
+                System.out.println("Questão: " + questao);
+                System.out.println("Número da questão: " + alternativa[0]);
+                System.out.println("Qº alternativas: " + alternativa[1]);
+
+                //contagem de certos
+                for (int i=0; i<questao.length(); i++) {
+                    char c = questao.charAt(i);
+                    if(c == V){
+                        certos++;
+                    }
+                }
+                //contagem de erradas
+                for (int i=0; i<questao.length(); i++) {
+                    char c = questao.charAt(i);
+                    if(c == F){
+                        erradas++;
+                    }
+                }
                 
+                System.out.println("Certas: " + certos);
+                System.out.println("Erradas: " + erradas);
+
+
+                String saida = "Questão: " + alternativa[0] + " // Nº de alternativas: " + alternativa[1] + " // Número de acertos: " + certos + "// Número de erradas: " + erradas; //transformar inteiro em string
+        
+                byte[] saidaFinal = saida.getBytes(); //transformar a saída em byte
+
+                req.setData(saidaFinal); //setagem dos dados no buffer do pacote
+                //Implementação final
+
                 System.out.println("*** Request recebido de: " + req.getSocketAddress());
-                // envia resposta
+                
                 DatagramPacket resp = new DatagramPacket(req.getData(), req.getLength(),
-                        req.getAddress(), req.getPort());
+                        req.getAddress(), req.getPort()); // envia resposta
                 s.send(resp);
             }
             
@@ -43,21 +79,5 @@ public class Servidor {
         } finally {
             if (s != null) s.close();
         }     
-    }
-
-    public static String alternativa (String questao){
-        char V;
-        V = 'V';
-        int certos = 0;
-
-        for (int i=0; i<questao.length(); i++) {
-            char c = questao.charAt(i);
-            if(c == V){
-                certos++;
-            }
-        }
-        
-        System.out.println("Número de acertos: " + certos);
-        return Integer.toString(certos);
     }
 }

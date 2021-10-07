@@ -12,7 +12,7 @@ import java.io.*;
 
 class ThreadCliente implements Runnable {
     protected String servidor="localhost";
-    protected String msg="VVFFV";
+    protected String msg="3;6;VVFFVF";
     protected int porta=6789;
     ThreadCliente(String args[]) {
         if (args.length > 0) servidor = args[0];
